@@ -266,7 +266,7 @@ body::after { right: 0; background-image: url('https://i.pinimg.com/736x/cc/2a/9
 
 <script>
 /* ===== KẾT NỐI APPS SCRIPT (thay link /exec của bạn vào đây) ===== */
-const GAS_URL="https://script.google.com/macros/s/AKfycbzGibrJgH-3hmylqUtMCG26q4r9WQ14IDrBXQ8DqBlSzFDdrDv6ex7DltmWQEDdtJz8rw/exec";
+const GAS_URL="https://script.google.com/macros/s/AKfycbwCtcaeCTL6rKx68aP_xuVlEWCUdDR-hQu1bzTxPUmek9Ca9iZLjtFvvKcakSAt5xhAPg/exec";
 const google={script:{run:{withSuccessHandler(ok){return{withFailureHandler(bad){return{chatAI(p){
   if(!GAS_URL.startsWith("https://")){bad({message:"Chưa dán link /exec vào GAS_URL trong index.html"});return}
   let code="";try{code=localStorage.getItem("moeCode")||""}catch(e){}
