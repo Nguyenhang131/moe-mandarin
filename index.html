@@ -7,135 +7,226 @@
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@2.2/dist/hanzi-writer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pinyin-pro"></script>
 <style>
-:root{--g:#3C7363;--g2:#e6f2ee;--p:#ec4899;--p2:#fdf2f8;--tx:#24332e;--mu:#7b8a85;--ln:#e3ebe8;--bg:#f4f8f6}
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@400;500;600&display=swap');
+:root{
+ --green:#16865d;--green-dark:#145b48;--green-soft:#e7f6ee;--mint:#f1faf5;
+ --pink:#f04483;--pink-soft:#fff0f5;--ink:#20332d;--muted:#73827c;
+ --line:#e4eee8;--paper:#fff;--cream:#fbfdf9;--gold:#f4bd42;
+ --shadow:0 12px 34px rgba(28,91,68,.08);
+}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(160deg,#e8f4ef,#f9eef4);min-height:100vh;color:var(--tx);font:16px/1.5 'Quicksand',system-ui,sans-serif}
-button,select,input{font:inherit}
-button{cursor:pointer}
-.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln);padding:10px 14px}
-.brand{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--g);font-size:20px;margin-bottom:8px}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
-.chip{flex:none;border:1px solid var(--ln);background:#fff;color:var(--g);border-radius:20px;padding:6px 14px;font-weight:600;font-size:14px}
-.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
-.wrap{max-width:860px;margin:0 auto;padding:16px 14px 90px}
-.card{background:#fff;border:1px solid var(--ln);border-radius:24px;box-shadow:0 8px 28px rgba(60,115,99,.1)}
-.hero{position:relative;overflow:hidden;padding:26px 22px 20px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
-.prog{position:absolute;top:0;left:0;height:5px;width:0;background:linear-gradient(90deg,var(--p),var(--g));transition:width .3s}
-#img{width:150px;height:150px;object-fit:cover;border-radius:22px;border:4px solid var(--g2)}
-.info{flex:1;min-width:220px}
-.cnt{color:var(--mu);font-size:13px}
-#py{color:var(--p);font-size:1.2rem;font-weight:600}
-#hz{font-family:Kaiti,'Noto Serif SC',serif;font-size:clamp(48px,11vw,84px);line-height:1.15;color:var(--g);word-break:break-all}
-#mn{min-height:30px;font-size:1.15rem;font-weight:600;cursor:pointer;color:var(--tx)}
-#mn.hid{color:var(--mu);font-weight:500;font-size:.95rem}
-.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
-.ib{width:46px;height:46px;border-radius:14px;border:1px solid var(--ln);background:var(--bg);font-size:18px}
-.ib:hover{background:var(--g);color:#fff}
-.ctl select{height:46px;border-radius:14px;border:1px solid var(--ln);background:var(--bg);padding:0 10px;color:var(--g);font-weight:600}
-.tabs{display:flex;gap:6px;margin:18px 0 12px;background:#fff;border:1px solid var(--ln);border-radius:16px;padding:5px}
-.tab{flex:1;border:none;background:none;border-radius:12px;padding:9px 4px;font-weight:700;color:var(--mu);font-size:14px}
-.tab.on{background:var(--g);color:#fff}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font:15px/1.55 'Be Vietnam Pro',system-ui,sans-serif;
+ background:radial-gradient(circle at 8% 12%,#e5f8ef 0,transparent 30%),linear-gradient(135deg,#f2fbf6,#fdf8fb)}
+button,select,input{font:inherit}button{cursor:pointer}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:24px;padding:13px 24px;
+ background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;min-width:250px;margin:0;color:var(--green-dark);font-size:21px;font-weight:800}
+.brand:before{content:"🐼";display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);
+ border-radius:16px;background:linear-gradient(145deg,#effaf3,#fff);font-size:29px}
+.brand:after{content:"Học tiếng Trung thật dễ dàng!";display:block;position:absolute;margin:35px 0 0 60px;
+ color:var(--muted);font-size:11px;font-weight:500}
+.chips{display:flex;align-items:center;gap:9px;overflow-x:auto;scrollbar-width:none;flex:1;padding:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:#fff;color:#43564e;border-radius:999px;padding:10px 17px;
+ font-weight:600;font-size:13px;transition:.2s;box-shadow:0 3px 10px rgba(0,0,0,.025)}
+.chip:hover{border-color:#a9d8c0;transform:translateY(-1px)}
+.chip.on{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 6px 16px #16865d30}
+.wrap{max-width:1600px;margin:0 auto;padding:20px 24px 100px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
+.sidebar{position:sticky;top:92px;display:flex;flex-direction:column;gap:16px}
+.side-visual,.side-quote{border:1px solid #d9f0e2;border-radius:26px;background:linear-gradient(145deg,#f1fff5,#e1f5e9);overflow:hidden;box-shadow:var(--shadow)}
+.side-visual{min-height:310px;padding:20px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.side-visual .han{font:600 38px 'Noto Serif SC',serif;color:var(--green);margin-bottom:2px}
+.side-visual .sub{font-size:13px;font-weight:700;color:var(--ink)}
+.side-visual .panda{font-size:112px;line-height:1.25;margin-top:14px;filter:drop-shadow(0 8px 6px #27664a20)}
+.side-links{padding:10px;background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:22px}
+.side-link{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;color:#45564f;font-weight:600}
+.side-link.active{background:var(--green);color:#fff}
+.side-quote{padding:17px 16px;color:var(--green-dark);font-size:13px;font-weight:600;line-height:1.7}
+.main{min-width:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
+.hero{position:relative;overflow:hidden;min-height:280px;padding:28px 34px 24px;display:flex;gap:24px;align-items:center;
+ background:linear-gradient(105deg,#fff 0%,#fff 58%,#f0faf5 100%)}
+.hero:after{content:"🏯";position:absolute;right:3%;bottom:-20px;font-size:190px;opacity:.13;pointer-events:none;filter:saturate(.7)}
+.prog{position:absolute;top:0;left:0;height:5px;width:0;background:linear-gradient(90deg,var(--pink),var(--green));transition:width .3s;z-index:2}
+#img{order:2;position:relative;z-index:1;width:230px;height:210px;object-fit:cover;border-radius:22px;border:5px solid #fff;
+ box-shadow:0 8px 24px #1d65441c}
+.info{order:1;flex:1;min-width:240px;position:relative;z-index:2}
+.cnt{display:inline-flex;align-items:center;background:#dcf6e6;color:var(--green-dark);font-size:12px;font-weight:700;padding:6px 13px;border-radius:999px}
+#py{color:var(--pink);font-size:19px;font-weight:700;margin-top:9px}
+#hz{font-family:'Noto Serif SC',Kaiti,serif;font-size:clamp(52px,7vw,88px);line-height:1.2;color:var(--green-dark);word-break:break-word}
+#mn{min-height:30px;font-size:15px;font-weight:600;cursor:pointer;color:var(--ink);margin-top:3px}
+#mn.hid{color:var(--muted);font-weight:500;font-size:13px}
+.ctl{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.ib{width:46px;height:46px;border-radius:15px;border:1px solid var(--line);background:#f7fbf8;font-size:18px;color:var(--green-dark);transition:.18s}
+.ib:hover{background:var(--green);color:#fff;transform:translateY(-2px)}
+.ctl select{height:46px;max-width:100%;border-radius:15px;border:1px solid var(--line);background:#f8fbf9;padding:0 12px;color:#38574b;font-weight:600}
+.tabs{display:flex;gap:8px;margin:18px 0 14px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:7px;box-shadow:var(--shadow)}
+.tab{flex:1;border:none;background:transparent;border-radius:15px;padding:12px 8px;font-weight:700;color:#75837d;font-size:14px;transition:.2s}
+.tab:hover{background:#f2faf5;color:var(--green-dark)}
+.tab.on{background:var(--green);color:#fff;box-shadow:0 5px 14px #16865d30}
 .pane{display:none}.pane.on{display:block}
-.ex{padding:14px 16px;margin-bottom:10px;border-left:5px solid var(--g);border-radius:16px}
-.ex .z{font-size:1.2rem;font-weight:700;display:flex;gap:10px;align-items:center}
-.ex .z b{color:var(--p)}
-.sp{border:none;background:var(--g2);border-radius:10px;width:34px;height:34px;flex:none}
-.ex .p{color:var(--mu);font-size:.85rem;font-style:italic;margin:2px 0 0 44px}
-.ex .v{color:var(--g);margin:2px 0 0 44px;font-weight:500}
-.dt{text-align:center;font-weight:700;color:var(--p);background:var(--p2);border:1px dashed var(--p);border-radius:14px;padding:8px;margin-bottom:12px}
-.row{display:flex;margin-bottom:10px}.row.r{justify-content:flex-end}
-.bub{max-width:86%;padding:10px 14px;border-radius:18px;background:var(--g2)}
-.row.r .bub{background:#dff0d8;text-align:right}
-.bub .y{color:var(--mu);font-size:.82rem;display:block}.bub .h{font-size:1.2rem;display:block}.bub .m{font-size:.9rem;color:var(--g);font-style:italic}
-#writer{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:20px}
-.empty{text-align:center;color:var(--mu);padding:26px}
-.aiset{display:flex;gap:8px;flex-wrap:wrap;padding:12px;border-bottom:1px solid var(--ln);align-items:center}
-.aiset select{border:1px solid var(--ln);border-radius:10px;padding:7px 8px;background:#fff}
-.go{background:var(--p);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-weight:700}
-#log{height:min(52vh,460px);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.m{max-width:90%;padding:10px 14px;border-radius:16px;background:var(--g2)}
-.m.me{align-self:flex-end;background:#dff0d8}
-.m .z{font-size:1.25em;display:block}.m .p{color:var(--p);font-size:.85em;display:block}.m .v{font-size:.9em;color:var(--mu)}
-.fx,.tp{margin-top:6px;padding:6px 9px;border-radius:10px;font-size:.88em}.fx{background:#e8f3ea}.tp{background:#fff4d6}
-.m .b{border:1px solid var(--ln);background:#fff;border-radius:8px;font-size:12px;padding:3px 8px;margin:6px 4px 0 0}
-.aw{color:var(--p)}
-.bar{display:flex;gap:6px;padding:10px;border-top:1px solid var(--ln)}
-.bar input{flex:1;min-width:0;border:1px solid var(--ln);border-radius:12px;padding:9px 12px}
-.bar button{border:1px solid var(--ln);background:#fff;border-radius:12px;padding:0 12px}
-.bar .snd{background:var(--g);color:#fff;border:none}
+#ex,#dlg{min-height:120px}
+.ex{padding:17px 18px;margin-bottom:12px;border-left:4px solid var(--green);border-radius:18px}
+.ex .z{font-size:1.2rem;font-weight:700;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ex .z b{color:var(--pink)}
+.sp{border:none;background:var(--green-soft);color:var(--green-dark);border-radius:11px;width:36px;height:36px;flex:none}
+.sp:hover{background:var(--green);color:#fff}
+.ex .p{color:var(--muted);font-size:.86rem;font-style:italic;margin:5px 0 0 46px}
+.ex .v{color:var(--green-dark);margin:4px 0 0 46px;font-weight:500}
+.dt{text-align:center;font-weight:700;color:var(--pink);background:var(--pink-soft);border:1px dashed #f4a9c7;border-radius:16px;padding:10px;margin-bottom:14px}
+.row{display:flex;margin-bottom:12px}.row.r{justify-content:flex-end}
+.bub{max-width:86%;padding:12px 16px;border-radius:18px;background:var(--green-soft)}
+.row.r .bub{background:#e7f5df;text-align:right}
+.bub .y{color:var(--muted);font-size:.82rem;display:block}.bub .h{font-size:1.2rem;display:block}.bub .m{font-size:.9rem;color:var(--green-dark);font-style:italic}
+#wr{padding:22px;min-height:220px;background:linear-gradient(135deg,#f5fff7,#fff)}
+#writer{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:18px;min-height:130px}
+#writer>div{background:#fff;border:1px solid #e5eee8;border-radius:14px;box-shadow:0 3px 12px #245c4110}
+.empty{text-align:center;color:var(--muted);padding:30px 20px;background:#fff;border:1px dashed var(--line);border-radius:18px}
+.aiset{display:flex;gap:9px;flex-wrap:wrap;padding:15px;border-bottom:1px solid var(--line);align-items:center;background:#fbfefc;border-radius:24px 24px 0 0}
+.aiset select{border:1px solid var(--line);border-radius:12px;padding:9px 11px;background:#fff;color:var(--ink)}
+.go{background:var(--green);color:#fff;border:none;border-radius:999px;padding:10px 19px;font-weight:700;box-shadow:0 5px 14px #16865d25}
+.go:hover{background:var(--green-dark)}
+#log{height:min(52vh,460px);overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:11px}
+.m{max-width:90%;padding:12px 15px;border-radius:17px;background:var(--green-soft)}
+.m.me{align-self:flex-end;background:#e8f4df}
+.m .z{font-size:1.25em;display:block}.m .p{color:var(--pink);font-size:.85em;display:block}.m .v{font-size:.9em;color:var(--muted)}
+.fx,.tp{margin-top:7px;padding:8px 10px;border-radius:11px;font-size:.88em}.fx{background:#e8f3ea}.tp{background:#fff6df}
+.m .b{border:1px solid var(--line);background:#fff;border-radius:9px;font-size:12px;padding:5px 9px;margin:7px 4px 0 0}
+.aw{color:var(--pink)}
+.bar{display:flex;gap:8px;padding:13px;border-top:1px solid var(--line)}
+.bar input{flex:1;min-width:0;border:1px solid var(--line);border-radius:14px;padding:11px 14px;outline:none}
+.bar input:focus{border-color:#8bc8a8;box-shadow:0 0 0 3px #16865d14}
+.bar button{border:1px solid var(--line);background:#fff;border-radius:13px;padding:0 14px}
+.bar .snd{background:var(--green);color:#fff;border:none}
 #mic.rec{background:#e11d48;color:#fff}
-details{margin-top:16px;padding:10px 14px}summary{font-weight:700;color:var(--g);cursor:pointer}
-@media(max-width:560px){#img{width:100%;height:190px}.hero{padding:22px 16px 16px}}
-.pr{position:fixed;left:0;right:0;bottom:0;z-index:60;max-width:860px;margin:0 auto;background:#fff;border:1px solid var(--ln);border-radius:24px 24px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.2);padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));display:none;max-height:82vh;overflow:auto}
+details{margin-top:18px;padding:17px 20px}
+summary{font-weight:800;color:var(--green-dark);cursor:pointer}
+details iframe{border:0}
+.pr{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:60;width:min(860px,100%);background:#fff;border:1px solid var(--line);
+ border-radius:26px 26px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.18);padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));display:none;max-height:82vh;overflow:auto}
 .pr.on{display:block}
-.prh{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--g)}
-.chs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.chc{text-align:center;min-width:54px;padding:6px 4px;border-radius:12px;border:2px solid var(--ln);cursor:pointer}
-.chc .c{font-family:Kaiti,serif;font-size:30px;line-height:1.1}.chc .y{font-size:12px;color:var(--mu)}.chc .w{font-size:11px;color:#c2410c}
+.prh{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--green-dark)}
+.chs{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.chc{text-align:center;min-width:58px;padding:8px 5px;border-radius:13px;border:2px solid var(--line);cursor:pointer}
+.chc .c{font-family:'Noto Serif SC',Kaiti,serif;font-size:30px;line-height:1.1}.chc .y{font-size:12px;color:var(--muted)}.chc .w{font-size:11px;color:#c2410c}
 .chc.ok{border-color:#4ade80;background:#f0fdf4}.chc.tone{border-color:#fb923c;background:#fff7ed}.chc.bad{border-color:#f87171;background:#fef2f2}.chc.miss{border-color:#cbd5e1;background:#f1f5f9;opacity:.7}
-#prM div{margin:4px 0;font-size:.93rem}.prn{font-size:12px;color:var(--mu);margin-top:8px}
-.tg{border:1px solid var(--ln);background:#fff;border-radius:10px;padding:8px 12px}
+#prM div{margin:5px 0;font-size:.93rem}.prn{font-size:12px;color:var(--muted);margin-top:9px}
+.tg{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px}
+.music-card{margin-top:18px;padding:18px 20px}
+.music-title{display:flex;align-items:center;gap:9px;color:var(--green-dark);font-weight:800;margin-bottom:12px}
+.music-title:before{content:"▶";display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green)}
+.music-card iframe{display:block;width:100%;height:190px;border:0;border-radius:17px}
+@media(max-width:1050px){
+ .wrap{grid-template-columns:205px minmax(0,1fr);gap:16px;padding:16px}
+ .brand{min-width:210px}.top{gap:12px;padding:11px 16px}
+ #img{width:180px;height:180px}.hero{padding:24px}
+}
+@media(max-width:760px){
+ .top{display:block;padding:10px 12px}.brand{margin-bottom:10px}.brand:after{display:none}
+ .wrap{display:block;padding:13px 12px 90px}.sidebar{position:static;margin-bottom:14px}
+ .side-visual{display:none}.side-links{display:none}.side-quote{display:none}
+ .hero{padding:22px 18px;min-height:0}.hero:after{font-size:115px;right:-8px;bottom:-18px}
+ #img{width:100%;height:150px;order:0}.info{order:1}
+ #hz{font-size:clamp(48px,12vw,72px)}
+ .tabs{gap:3px;padding:5px}.tab{font-size:12px;padding:11px 3px}
+ .music-card iframe{height:170px}
+}
+@media(max-width:480px){
+ .brand{font-size:19px}.chip{padding:8px 13px}
+ .hero{border-radius:21px}.ctl select{flex:1;min-width:130px}
+ .ib{width:42px;height:42px}.tab{font-size:11px}
+ .bar{flex-wrap:wrap}.bar input{order:3;flex-basis:100%}
+}
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="brand">🦔 Moe Mandarin</div>
+<header class="top">
+  <div class="brand">Moe Mandarin</div>
   <div class="chips" id="chips"></div>
-</div>
+</header>
+
 <div class="wrap">
-  <div class="card hero">
-    <div class="prog" id="prog"></div>
-    <img id="img" alt="">
-    <div class="info">
-      <div class="cnt" id="cnt"></div>
-      <div id="py"></div>
-      <div id="hz"></div>
-      <div id="mn" class="hid">Chạm để xem nghĩa</div>
-      <div class="ctl">
-        <button class="ib" id="prev" title="Từ trước">◀</button>
-        <button class="ib" id="say" title="Nghe">🔊</button>
-        <button class="ib" id="pw" title="Đọc theo mẫu">🎯</button>
-        <select id="spd"><option value="0.5">🐢 Chậm</option><option value="0.9" selected>🚶 Vừa</option><option value="1.3">⚡ Nhanh</option></select>
-        <select id="vc" title="Giọng đọc"></select>
-        <button class="ib" id="anim" title="Xem nét viết">✍️</button>
-        <button class="ib" id="next" title="Từ sau">▶</button>
+  <aside class="sidebar">
+    <section class="side-visual">
+      <div class="han">加油！</div>
+      <div class="sub">Cố lên nhé!</div>
+      <div class="panda">🐼📖</div>
+    </section>
+    <nav class="side-links">
+      <div class="side-link active">⌂ <span>Trang học hiện tại</span></div>
+      <div class="side-link">☆ <span>Yêu thích</span></div>
+      <div class="side-link">◷ <span>Lịch sử học</span></div>
+      <div class="side-link">⚙ <span>Cài đặt</span></div>
+    </nav>
+    <div class="side-quote">💡 “Học mỗi ngày, tiến bộ mỗi ngày!”<br><span style="font-weight:400">Một chút kiên trì sẽ tạo nên khác biệt.</span></div>
+  </aside>
+
+  <main class="main">
+    <section class="card hero">
+      <div class="prog" id="prog"></div>
+      <img id="img" alt="Hình minh họa từ vựng" style="display:none">
+      <div class="info">
+        <div class="cnt" id="cnt"></div>
+        <div id="py"></div>
+        <div id="hz"></div>
+        <div id="mn" class="hid">Chạm để xem nghĩa</div>
+        <div class="ctl">
+          <button class="ib" id="prev" title="Từ trước">◀</button>
+          <button class="ib" id="say" title="Nghe phát âm">🔊</button>
+          <button class="ib" id="pw" title="Luyện đọc theo mẫu">🎯</button>
+          <select id="spd" aria-label="Tốc độ đọc"><option value="0.5">🐢 Chậm</option><option value="0.9" selected>🚶 Vừa</option><option value="1.3">⚡ Nhanh</option></select>
+          <select id="vc" title="Giọng đọc" aria-label="Giọng đọc"></select>
+          <button class="ib" id="anim" title="Xem nét viết">✍️</button>
+          <button class="ib" id="next" title="Từ tiếp theo">▶</button>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="tabs" id="tabs">
-    <button class="tab on" data-p="ex">💡 Mẫu câu</button>
-    <button class="tab" data-p="dlg">💬 Hội thoại</button>
-    <button class="tab" data-p="wr">✍️ Tập viết</button>
-    <button class="tab" data-p="ai">🗣️ Luyện nói</button>
-  </div>
+    <nav class="tabs" id="tabs" aria-label="Chế độ học">
+      <button class="tab on" data-p="ex">💡 Mẫu câu</button>
+      <button class="tab" data-p="dlg">💬 Hội thoại</button>
+      <button class="tab" data-p="wr">✍️ Tập viết</button>
+      <button class="tab" data-p="ai">🗣️ Luyện nói</button>
+    </nav>
 
-  <div class="pane on" id="ex"></div>
-  <div class="pane" id="dlg"></div>
-  <div class="pane card" id="wr"><div id="writer"></div></div>
-  <div class="pane card" id="ai">
-    <div class="aiset">
-      <select id="lv"><option>HSK 1-2</option><option>HSK 3-4</option><option>HSK 5+</option></select>
-      <select id="sc"><option value="__w">📚 Theo từ đang học</option><option>Làm quen bạn mới</option><option>Gọi đồ ở quán ăn</option><option>Mua sắm, mặc cả</option><option>Hỏi đường, đi taxi</option><option>Nói chuyện với đồng nghiệp</option><option>Hẹn bạn đi chơi</option><option>Làm việc, thuế, kế toán</option></select>
-      <button class="go" id="start">Bắt đầu</button>
-      <label style="font-size:13px"><input type="checkbox" id="auto" checked> Tự gửi sau khi nói</label>
-    </div>
-    <div id="log"></div>
-    <div class="bar">
-      <button id="mic" title="Nói">🎤</button>
-      <button id="lang" title="Ngôn ngữ nói">中</button>
-      <input id="inp" placeholder="Gõ tiếng Trung hoặc tiếng Việt…" autocomplete="off">
-      <button class="snd" id="send">Gửi</button>
-    </div>
-  </div>
+    <section class="pane on" id="ex"></section>
+    <section class="pane" id="dlg"></section>
+    <section class="pane card" id="wr">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <strong style="color:var(--green-dark)">✍️ Luyện viết chữ Hán</strong>
+        <span style="font-size:13px;color:var(--muted)">Quan sát thứ tự nét và luyện viết theo mẫu</span>
+      </div>
+      <div id="writer"></div>
+      <div style="text-align:center">
+        <button class="go" id="startWrite" type="button">✍️ Bắt đầu xem nét viết</button>
+      </div>
+    </section>
+    <section class="pane card" id="ai">
+      <div class="aiset">
+        <select id="lv"><option>HSK 1-2</option><option>HSK 3-4</option><option>HSK 5+</option></select>
+        <select id="sc"><option value="__w">📚 Theo từ đang học</option><option>Làm quen bạn mới</option><option>Gọi đồ ở quán ăn</option><option>Mua sắm, mặc cả</option><option>Hỏi đường, đi taxi</option><option>Nói chuyện với đồng nghiệp</option><option>Hẹn bạn đi chơi</option><option>Làm việc, thuế, kế toán</option></select>
+        <button class="go" id="start">Bắt đầu luyện</button>
+        <label style="font-size:13px"><input type="checkbox" id="auto" checked> Tự gửi sau khi nói</label>
+      </div>
+      <div id="log"></div>
+      <div class="bar">
+        <button id="mic" title="Nói">🎤</button>
+        <button id="lang" title="Ngôn ngữ nói">中</button>
+        <input id="inp" placeholder="Gõ tiếng Trung hoặc tiếng Việt…" autocomplete="off">
+        <button class="snd" id="send">Gửi</button>
+      </div>
+    </section>
 
-  <details class="card"><summary>🎧 Nhạc nền</summary>
-    <iframe width="100%" height="150" src="https://www.youtube.com/embed/hMDfBaNfLt4" frameborder="0" loading="lazy" style="border-radius:12px;margin-top:10px"></iframe>
-  </details>
+    <section class="card music-card">
+      <div class="music-title">Nhạc nền học tiếng Trung</div>
+      <iframe src="https://www.youtube.com/embed/hMDfBaNfLt4" title="Nhạc nền học tiếng Trung" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </section>
+  </main>
 </div>
 
 <div class="pr" id="pr">
-  <div class="prh"><span>🎯 Đọc theo mẫu</span><button class="sp" id="prX">✕</button></div>
+  <div class="prh"><span>🎯 Đọc theo mẫu</span><button class="sp" id="prX" aria-label="Đóng">✕</button></div>
   <div class="chs" id="prC"></div>
   <div id="prM"></div>
   <div class="ctl"><button class="go" id="prMic">🎤 Bấm và đọc</button><button class="tg" id="prHear">🔊 Nghe mẫu chậm</button></div>
@@ -207,6 +298,7 @@ $("prev").onclick=()=>{if(data.length){idx=(idx-1+data.length)%data.length;rende
 $("next").onclick=()=>{if(data.length){idx=(idx+1)%data.length;render()}};
 $("say").onclick=()=>data.length&&speak(String(data[idx]["Từ"]));
 $("anim").onclick=()=>writers.forEach((w,i)=>setTimeout(()=>w.animateCharacter(),i*800));
+$("startWrite").onclick=()=>$("anim").click();
 document.addEventListener("keydown",e=>{if(/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName))return;
   if(e.key==="ArrowRight")$("next").click();if(e.key==="ArrowLeft")$("prev").click()});
 
