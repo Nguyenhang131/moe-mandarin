@@ -1266,8 +1266,10 @@ button { cursor: pointer; }
   <div class="bp-info">
     <div class="bp-cover">🏞️</div>
     <div class="bp-meta">
-      <div class="bp-label">🎵 Nhạc nền đang phát:</div>
-      <div class="bp-title" id="bpTitle">2026 一月新歌</div>
+      <div class="bp-label">🎵 Chọn nhạc nền (<span id="bgmCount">0</span> bài):</div>
+      <select id="bpSelect" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:3px 6px;font-weight:700;color:var(--green-dark);background:#f7fcf9;outline:none">
+        <option value="0">2026 一月新歌</option>
+      </select>
     </div>
   </div>
 
@@ -1624,13 +1626,13 @@ $("btnGasCfg").onclick = () => {
 };
 
 /* ===== YOUTUBE IFRAME PLAYER API (TỰ ĐỘNG LẤY TỪ SHEET "LINK YOU") ===== */
+/* ===== YOUTUBE IFRAME PLAYER API (ĐỒNG BỘ SHEET "LINK YOU") ===== */
 let ytPlayer = null, ytTimer = null, ytReady = false;
 let BGM_LIST = [
   { id: "hMDfBaNfLt4", title: "2026 一月新歌" }
 ];
 let bgmIdx = 0;
 
-// Hàm tự tách Video ID từ mọi dạng link YouTube (youtu.be/..., youtube.com/watch?v=..., shorts/...)
 function extractYtId(url) {
   const m = String(url || "").match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([0-9A-Za-z_-]{11})/);
   return m ? m[1] : "";
@@ -1644,19 +1646,18 @@ function fmtSec(s) {
 }
 
 function renderBgmDropdown() {
-  const sel = $("bgmSelect");
-  sel.innerHTML = BGM_LIST.map((item, i) => `<option value="${i}">${esc(item.title)}</option>`).join("");
-  sel.value = String(bgmIdx);
-  $("bpTitle").textContent = BGM_LIST[bgmIdx].title;
-  $("ytLink").href = "https://www.youtube.com/watch?v=" + BGM_LIST[bgmIdx].id;
+  const opts = BGM_LIST.map((item, i) => `<option value="${i}">${esc(item.title)}</option>`).join("");
+  if ($("bgmSelect")) { $("bgmSelect").innerHTML = opts; $("bgmSelect").value = String(bgmIdx); }
+  if ($("bpSelect")) { $("bpSelect").innerHTML = opts; $("bpSelect").value = String(bgmIdx); }
+  if ($("bgmCount")) $("bgmCount").textContent = BGM_LIST.length;
+  if ($("ytLink")) $("ytLink").href = "https://www.youtube.com/watch?v=" + BGM_LIST[bgmIdx].id;
 }
 
-// Tải danh sách nhạc từ sheet "LINK YOU"
 async function loadMusicSheet() {
   try {
-    const rows = await (await fetch(SHEET + encodeURIComponent("LINK YOU"))).json();
+    const res = await fetch(SHEET + encodeURIComponent("LINK YOU"));
+    const rows = await res.json();
     const list = rows.map(r => {
-      // Hỗ trợ cả trường hợp có tiêu đề Link / Tên bài hoặc lấy theo 2 cột đầu tiên
       const vals = Object.values(r);
       const rawUrl = r["Link"] || r["link"] || vals[0] || "";
       const rawTitle = r["Tên bài"] || r["Tên"] || vals[1] || "Nhạc nền tiếng Trung";
@@ -1699,10 +1700,7 @@ window.onYouTubeIframeAPIReady = function () {
       },
       onStateChange: e => {
         $("bpPlay").textContent = e.data === YT.PlayerState.PLAYING ? "⏸" : "▶";
-        // Tự động chuyển sang bài tiếp theo khi hết bài
-        if (e.data === YT.PlayerState.ENDED) {
-          switchBgm(bgmIdx + 1);
-        }
+        if (e.data === YT.PlayerState.ENDED) switchBgm(bgmIdx + 1);
       }
     }
   });
@@ -1717,7 +1715,8 @@ function switchBgm(index) {
   }
 }
 
-$("bgmSelect").onchange = e => switchBgm(parseInt(e.target.value, 10) || 0);
+if ($("bgmSelect")) $("bgmSelect").onchange = e => switchBgm(parseInt(e.target.value, 10) || 0);
+if ($("bpSelect")) $("bpSelect").onchange = e => switchBgm(parseInt(e.target.value, 10) || 0);
 $("bpPlay").onclick = () => {
   if (!ytPlayer || !ytPlayer.getPlayerState) return;
   if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) ytPlayer.pauseVideo();
